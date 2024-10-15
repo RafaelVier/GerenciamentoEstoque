@@ -4,7 +4,7 @@ void main() {
   runApp(const MyApp());
 }
 
-//teste
+//teste Rafael para verificar o funcionamento do Git
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
