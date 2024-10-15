@@ -4,12 +4,7 @@ void main() {
   runApp(const MyApp());
 }
 
-<<<<<<< Updated upstream
 //teste
-=======
-//teste Rafael para verificar o funcionamento do Git
-//teste giovane kkkkkkkkkkkkkkkkkk
->>>>>>> Stashed changes
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
