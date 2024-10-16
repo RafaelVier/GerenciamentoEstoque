@@ -5,9 +5,9 @@ void main() {
 }
 
 //teste
+//teste natan acabando com o código
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
