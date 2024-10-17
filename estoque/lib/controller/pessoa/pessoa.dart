@@ -1,3 +1,4 @@
+import 'dart:io';
 class Pessoa{
   int _iDPessoa;
   String _nome;
@@ -26,11 +27,9 @@ class Pessoa{
     _documento = novoDocumento;
   }
   void ToString(){
-    print('Nome:$_nome');
-    print('Documento:$_documento');
-    print('Informações pessoais');
-    print('telefone:$_telefone');
-    print('Email:');
+    print('Nome:$_nome, '
+    'Documento:$_documento,'
+    'Informações pessoais: ''telefone:$_telefone, ''Email:$_email');
   }
 
 }
