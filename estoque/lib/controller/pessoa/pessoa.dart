@@ -1,4 +1,6 @@
 import 'dart:io';
+
+import 'package:flutter/material.dart';
 class Pessoa{
   int _iDPessoa;
   String _nome;
@@ -23,7 +25,7 @@ class Pessoa{
     _email = novoEmail;
   }
   String get documento => _documento;
-  set documento(String novoDocumento){
+  set documento(String novoDocumento ){
     _documento = novoDocumento;
   }
   void ToString(){
