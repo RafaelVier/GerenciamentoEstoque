@@ -1,3 +1,4 @@
+import 'package:estoque/telas/tela_login.dart';
 import 'package:flutter/material.dart';
 
 class Telas extends StatelessWidget {
@@ -17,7 +18,6 @@ class Telas extends StatelessWidget {
   }
 }
 
-
 class TelaInicial extends StatefulWidget {
   const TelaInicial({super.key});
 
@@ -34,7 +34,7 @@ class _TelaInicialState extends State<TelaInicial> {
         title: const Column(
           children: [
             Text (
-              "Mercadinho do Zé", 
+              "Controle de Estoque", 
               style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22),
             ),
           ]
@@ -55,14 +55,21 @@ class _TelaInicialState extends State<TelaInicial> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text("Seja bem-vindo ao Mercadinho do Zé!",
-                style: TextStyle(fontWeight: FontWeight.bold,
-                fontSize: 22)
-              ),
+            const Text("Seja bem-vindo ao aplicativo de controle de estoque.",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold,
+              fontSize: 22)
+            ),
         
             ElevatedButton(
-                onPressed: () {},
-                child: const Text("Clique aqui para acessar o estoque")),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TelaLogin()),
+                  );
+                },
+                child: const Text("Clique aqui para acessar."),
+            ),
           ],
         ),
       ),
