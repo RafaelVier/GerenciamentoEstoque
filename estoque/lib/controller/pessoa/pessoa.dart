@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:crypto/crypto.dart';
+import 'dart:convert'; 
 import 'package:flutter/material.dart';
 class Pessoa{
   int _iDPessoa;
@@ -7,7 +8,35 @@ class Pessoa{
   String _telefone;
   String _email;
   String _documento;
-  Pessoa(this._iDPessoa,this._nome,this._telefone,this._email,this._documento);
+  String _senha;
+  String _login;
+  static List<Pessoa> listaPessoas = [];
+  Pessoa(this._iDPessoa, this._nome, this._telefone, this._email, this._documento, this._senha, this._login){
+    this._senha = senha;
+  }
+  String get login => _login;
+  set login(String novoLogin){
+    if(novoLogin.isNotEmpty){
+      _login = novoLogin;
+    }else{
+      throw Exception('Login não pode ser vazio');
+    }
+  }
+  String get senha => _senha;
+  set senha(String novaSenha){
+    if (novaSenha.isNotEmpty) {
+      var bytes = utf8.encode(novaSenha); // data being hashed
+      var digest = sha256.convert(bytes);
+      _senha = digest.toString();
+    } else {
+      throw Exception('Senha não pode ser vazio');
+    }
+  }
+   bool verificarSenha(String senhaFornecida) {
+    var bytes = utf8.encode(senhaFornecida);
+    var digest = sha256.convert(bytes);
+    return _senha == digest.toString();
+  }
   int get iDPessoa =>_iDPessoa;
   set iDPessoa(int novoId){
     _iDPessoa = novoId;
@@ -28,10 +57,13 @@ class Pessoa{
   set documento(String novoDocumento ){
     _documento = novoDocumento;
   }
-  void ToString(){
-    print('Nome:$_nome, '
+ 
+  @override
+  String ToString(){
+    return'Nome:$_nome, '
     'Documento:$_documento,'
-    'Informações pessoais: ''telefone:$_telefone, ''Email:$_email');
+    'Informações pessoais: ''telefone:$_telefone, '
+    'Email:$_email';
   }
 
 }
