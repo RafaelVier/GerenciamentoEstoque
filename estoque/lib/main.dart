@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'controller/pessoa/login.dart'; // Certifique-se de que o caminho está correto
+//import 'controller/pessoa/login.dart'; // Certifique-se de que o caminho está correto
 
 void main() {
   runApp(MyApp());
