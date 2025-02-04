@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class Funcionario {
   int _IDFuncionario;
   String _nome;
-  String _telefone;
+  String? _telefone;
   String _email;
   String _senha;
   String _login;
@@ -26,9 +26,9 @@ class Funcionario {
     novoNome == '' ? print('Nome não informado') : _nome = novoNome;
   }
 
-  String get telefone => _telefone;
-  set telefone(String novoTelefone) {
-    _telefone = novoTelefone;
+  String? get telefone => _telefone;
+  set telefone(String? novoTelefone) {
+    novoTelefone == '' ? _telefone='' : _telefone = novoTelefone;
   }
 
   String get email => _email;
@@ -54,6 +54,6 @@ class Funcionario {
 
   @override
   String toString() {
-    return 'Nome:$_nome,Informações pessoais: telefone:$_telefone, Email:$_email';
+    return telefone ==''? 'Nome:$_nome, Informações pessoais: Email:$_email' : 'Nome:$_nome, Informações pessoais: telefone:$_telefone, Email:$_email';
   }
 }
