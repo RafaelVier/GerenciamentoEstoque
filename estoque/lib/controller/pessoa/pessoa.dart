@@ -1,4 +1,4 @@
-import 'dart:io';
+/*import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'dart:convert'; 
 import 'package:flutter/material.dart';
@@ -66,4 +66,32 @@ class Pessoa{
     'Email:$_email';
   }
 
+  factory Pessoa.mapPessoa(Map<String, dynamic> map) {
+    return Pessoa(
+      map['iDPessoa'],
+      map['nome'],
+      map['telefone'],
+      map['email'],
+    );
+  }
+  String get nome => _nome;
+  set nome(String novoNome) {
+    novoNome == '' ? print('Nome não informado') : _nome = novoNome;
+  }
+
+  String get telefone => _telefone;
+  set telefone(String novoTelefone) {
+    _telefone = novoTelefone;
+  }
+
+  String get email => _email;
+  set email(String novoEmail) {
+    novoEmail == '' ? print('Email não informado') : _email = novoEmail;
+  }
+
+  @override
+  String toString() {
+    return 'Nome:$_nome,Informações pessoais: telefone:$_telefone, Email:$_email';
+  }
 }
+*/
