@@ -1,3 +1,4 @@
+import 'package:estoque/telas/telaInicial/tela_inicial.dart';
 import 'package:flutter/material.dart';
 
 class TelaLogin extends StatefulWidget {
@@ -10,6 +11,8 @@ class TelaLogin extends StatefulWidget {
 class _TelaLoginState extends State<TelaLogin> {
 
   bool queroEntrar = true;
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +35,20 @@ class _TelaLoginState extends State<TelaLogin> {
             ),
             const SizedBox(height: 16),
             TextFormField(
-              obscureText: true,
-              decoration: const InputDecoration(
+              obscureText: _obscurePassword,
+              decoration: InputDecoration(
                 labelText: 'Senha',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  }
+                )
               ),
             ),
             const SizedBox(height: 8),
@@ -44,9 +57,20 @@ class _TelaLoginState extends State<TelaLogin> {
               child: Column(
                 children: [
                   TextFormField(
-                    decoration: const InputDecoration(
+                    obscureText: _obscureConfirmPassword,
+                    decoration: InputDecoration(
                       labelText: 'Confirmar senha',
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirmPassword = !_obscureConfirmPassword;
+                          });
+                        },
+                      )
                     )
                   ),
                   const SizedBox(height: 8),
@@ -61,7 +85,12 @@ class _TelaLoginState extends State<TelaLogin> {
             ),
             const SizedBox(height: 16,),
             ElevatedButton(
-              onPressed: () {}, 
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TelaInicial()),
+                );
+              }, 
               child: Text((queroEntrar) ? "Entrar" : "Cadastrar-se"),
             ),
             const SizedBox(height: 16),
