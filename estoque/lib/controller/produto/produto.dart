@@ -19,6 +19,7 @@ class Produto {
       this.precoVenda,
       this.categoria,
       this.FornecedorProduto);
+  get id => IDProduto;
 
   factory Produto.mapProduto(Map<String, dynamic> map) {
     return Produto(

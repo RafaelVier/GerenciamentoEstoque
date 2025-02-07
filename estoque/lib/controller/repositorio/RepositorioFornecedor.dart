@@ -12,9 +12,9 @@ class RepositorioFornecedor implements IRepositorio<Fornecedor> {
   } 
 
   @override
-  Future<Fornecedor?> getById(String cnpj) async {
+  Future<Fornecedor?> getById(String id) async {
     try {
-      return _fornecedores.firstWhere((fornecedor) => fornecedor.CNPJ == cnpj);
+      return _fornecedores.firstWhere((fornecedor) => fornecedor.ID == id);
     } catch (e) {
       return null;
     }
@@ -27,13 +27,13 @@ class RepositorioFornecedor implements IRepositorio<Fornecedor> {
 
   @override
   Future<void> update(Fornecedor item) async {
-    int index = _fornecedores.indexWhere((fornecedor) => fornecedor.CNPJ == item.CNPJ);
+    int index = _fornecedores.indexWhere((fornecedor) => fornecedor.ID == item.ID);
     index != -1 ? _fornecedores[index] = item : throw Exception('Fornecedor não encontrado');
   }
 
   @override
-  Future<void> delete(String cnpj) async {
-    int index = _fornecedores.indexWhere((fornecedor) => fornecedor.CNPJ == cnpj);
+  Future<void> delete(String id) async {
+    int index = _fornecedores.indexWhere((fornecedor) => fornecedor.ID == id);
     if (index != -1) {
       _fornecedores.removeAt(index);
     } else {
