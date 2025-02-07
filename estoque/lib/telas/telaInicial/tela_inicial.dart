@@ -69,7 +69,7 @@ class TelaInicial extends StatelessWidget {
                     ),
                     _menuItem(Icons.inventory, "Gerenciar Estoque", context, const TelaCrudEstoque()),
                     _menuItem(Icons.currency_exchange, "Movimentação", context, const TelaMovimentacao()),
-                    _menuItem(Icons.settings, "Fornecedores", context, const TelaFornecedores()),
+                    _menuItem(Icons.supervisor_account, "Fornecedores", context, const TelaFornecedores()),
                     _menuItem(Icons.bar_chart, "Relatórios", context, const TelaRelatorios()),
                     _menuItem(Icons.exit_to_app, "Sair", context, null, isExit: true),
                   ],
