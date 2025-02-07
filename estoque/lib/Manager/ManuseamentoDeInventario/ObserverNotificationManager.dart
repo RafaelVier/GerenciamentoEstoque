@@ -4,11 +4,11 @@ import 'INotificationObserver.dart';
 class Observernotificationmanager extends INotificationObserver{
   List<INotificationObserver> _observers = [];
 
-  void AddObserver(INotificationObserver observer){
+  void RegistarObservacao(INotificationObserver observer){
     _observers.add(observer);
   }
 
-  void RemoveObserver(INotificationObserver observer){
+  void RemoverObservacao(INotificationObserver observer){
     _observers.remove(observer);
   }
 

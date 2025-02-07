@@ -11,15 +11,6 @@ class Funcionario {
 
   Funcionario(this._iDFuncionario, this._nome, this._email, this._senha);
 
-  factory Funcionario.mapFuncionario(Map<String, dynamic> map) {
-    return Funcionario(
-      map['IDFuncionario'], 
-      map['nome'],
-      map['email'],
-      map['senha']
-    );
-  }
-
   String get iDFuncionario => _iDFuncionario;
 
   String get nome => _nome;
@@ -54,7 +45,31 @@ class Funcionario {
     final digest = sha256.convert(bytes);
     return digest.toString();
   }
-
+  factory Funcionario.mapFuncionario(Map<String, dynamic> map) {
+    return Funcionario(
+      map['IDFuncionario'], 
+      map['nome'],
+      map['email'],
+      map['senha']
+    );
+  }
+  Map<String, dynamic> toMap() {
+    return {
+      'IDFuncionario': _iDFuncionario,
+      'nome': _nome,
+    };
+  }
+  factory Funcionario.fromJson(Map<String, dynamic> json) {
+    return Funcionario(
+      json['IDFuncionario'],
+      json['nome'],
+      json['email'],
+      json['senha']
+    );
+  }
+  String toJson() {
+    return jsonEncode(toMap());
+  }
   @override
   String toString() {
     return 'ID: $_iDFuncionario\nNome: $_nome, Informações pessoais: Email: $_email';
