@@ -3,7 +3,7 @@ import 'package:estoque/controller/pessoa/fornecedor.dart';
 import 'categoria.dart';
 
 class Produto {
-  String IDProduto;
+  String _IDProduto;
   String CodigoBarras;
   String nome;
   double precoCusto;
@@ -12,18 +12,18 @@ class Produto {
   Fornecedor FornecedorProduto;
 
   Produto(
-      this.IDProduto,
+      this._IDProduto,
       this.CodigoBarras,
       this.nome,
       this.precoCusto,
       this.precoVenda,
       this.categoria,
       this.FornecedorProduto);
-  get id => IDProduto;
+  get id => _IDProduto;
 
   factory Produto.mapProduto(Map<String, dynamic> map) {
     return Produto(
-        map['IDProduto'],
+        map['_IDProduto'],
         map['CodigoBarras'],
         map['nome'],
         map['precoCusto'],

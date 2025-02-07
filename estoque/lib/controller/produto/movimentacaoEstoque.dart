@@ -13,7 +13,7 @@ class MovimentacaoEstoque{
     String Observacao;
     MovimentacaoEstoque(this.ID, this.produto, this.TipoMovimentacao, this.Quantidade, this.tipoQuantidade, this.Data, this.Observacao);
     factory MovimentacaoEstoque.mapMovimentacao(Map<String, dynamic> map) {
-    return MovimentacaoEstoque(
+      return MovimentacaoEstoque(
         map['ID'],
         Produto.mapProduto(map['produto']),
         map['TipoMovimentacao'],
@@ -22,5 +22,8 @@ class MovimentacaoEstoque{
         map['Data'],
         map['Observacao']
       );
+    }
+    void ProdutoService () {
+      
     }
 }
