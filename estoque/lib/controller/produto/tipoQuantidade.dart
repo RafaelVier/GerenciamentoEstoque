@@ -1,9 +1,12 @@
-class TipoQuantidade {
-  int id;
-  String nome;
-  String descricao;
-  TipoQuantidade(this.id, this.nome, this.descricao);
-  factory TipoQuantidade.mapTipoQuantidade(Map<String, dynamic> map) {
-    return TipoQuantidade(map['id'], map['nome'], map['descricao']);
-  }
+enum  TipoQuantidade {
+ KG,
+ pacote,
+ Litros,
+ fardo;
 }
+Map<TipoQuantidade, String> TipoQuantidadeMap = {
+  TipoQuantidade.values[0]: 'KG',
+  TipoQuantidade.values[1]: 'pacote',
+  TipoQuantidade.values[2]: 'Litros',
+  TipoQuantidade.values[3]: 'fardo'
+};

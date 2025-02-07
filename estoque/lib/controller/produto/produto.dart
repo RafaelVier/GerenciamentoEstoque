@@ -1,26 +1,23 @@
 //import 'dart:ffi';
 import 'package:estoque/controller/pessoa/fornecedor.dart';
-import 'tipoQuantidade.dart';
 import 'categoria.dart';
 
 class Produto {
-  int IDProduto;
+  String IDProduto;
   String CodigoBarras;
   String nome;
-  double preco;
-  double quantidade;
+  double precoCusto;
+  double precoVenda;
   Categoria categoria;
-  TipoQuantidade tipoQuantidade;
   Fornecedor FornecedorProduto;
 
   Produto(
       this.IDProduto,
       this.CodigoBarras,
       this.nome,
-      this.preco,
-      this.quantidade,
+      this.precoCusto,
+      this.precoVenda,
       this.categoria,
-      this.tipoQuantidade,
       this.FornecedorProduto);
 
   factory Produto.mapProduto(Map<String, dynamic> map) {
@@ -28,10 +25,9 @@ class Produto {
         map['IDProduto'],
         map['CodigoBarras'],
         map['nome'],
-        map['preco'],
-        map['quantidade'],
+        map['precoCusto'],
+        map['precoVenda'],
         Categoria.mapCategoria(map['categoria']),
-        TipoQuantidade.mapTipoQuantidade(map['tipoQuantidade']),
         Fornecedor.mapFornecedor(map['FornecedorProduto']));
   }
 }

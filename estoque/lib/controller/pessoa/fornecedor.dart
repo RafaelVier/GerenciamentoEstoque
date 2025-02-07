@@ -7,7 +7,8 @@ class Fornecedor {
   Fornecedor(this.ID, this.Nome, this.CNPJ, this.Telefone, this.email);
   factory Fornecedor.mapFornecedor(Map<String, dynamic> map) {
     return Fornecedor(
-        map['ID'], map['Nome'], map['CNPJ'], map['Telefone'], map['email']);
+        map['ID'], map['Nome'], map['CNPJ'], 
+        map['Telefone'], map['email']);
   }
   @override
   String toString() {
