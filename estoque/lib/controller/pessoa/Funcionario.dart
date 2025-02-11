@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-
 import 'pessoa.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
@@ -28,7 +27,7 @@ class Funcionario {
 
   String? get telefone => _telefone;
   set telefone(String? novoTelefone) {
-    novoTelefone == '' ? _telefone='' : _telefone = novoTelefone;
+    novoTelefone == '' ? _telefone = '' : _telefone = novoTelefone;
   }
 
   String get email => _email;
@@ -54,6 +53,8 @@ class Funcionario {
 
   @override
   String toString() {
-    return telefone ==''? 'Nome:$_nome, Informações pessoais: Email:$_email' : 'Nome:$_nome, Informações pessoais: telefone:$_telefone, Email:$_email';
+    return telefone == ''
+        ? 'Nome:$_nome, Informações pessoais: Email:$_email'
+        : 'Nome:$_nome, Informações pessoais: telefone:$_telefone, Email:$_email';
   }
 }
