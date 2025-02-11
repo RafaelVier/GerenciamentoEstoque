@@ -1,6 +1,6 @@
+import 'package:estoque/Manager/Model/pessoa/Funcionario.dart';
 import 'package:estoque/Manager/Model/produto/produto.dart';
 import 'package:estoque/Manager/Model/produto/tipoQuantidade.dart';
-import 'package:estoque/controller/pessoa/Funcionario.dart';
 import 'TipoMovimentacao.dart';
 class MovimentacaoEstoque{
     int ID;

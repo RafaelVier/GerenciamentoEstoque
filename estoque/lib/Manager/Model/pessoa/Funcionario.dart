@@ -25,7 +25,7 @@ class Funcionario {
   String get email => _email;
   set email(String novoEmail) {
     if (novoEmail == '') {
-      print('Email não informado');
+      print( 'Email não informado');
     } else {
       _email = novoEmail;
     }

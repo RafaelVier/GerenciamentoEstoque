@@ -1,5 +1,5 @@
+import 'package:estoque/Manager/Model/produto/produto.dart';
 import 'service.dart';
-import 'package:estoque/controller/produto/produto.dart';
 
 class ProdutoService extends Service<Produto> {
   List<Produto> _produtos = [];
@@ -11,7 +11,7 @@ class ProdutoService extends Service<Produto> {
 
   @override
   Future<Produto> Atualizar(Produto produto) async {
-    int index = _produtos.indexWhere((p) => p.IDProduto == produto.IDProduto);
+    int index = _produtos.indexWhere((p) => p.id == produto.id);
     if (index != -1) {
       _produtos[index] = produto;
       return produto;
@@ -28,7 +28,7 @@ class ProdutoService extends Service<Produto> {
 
   @override
   Future<Produto> Delete(int id) async {
-    int index = _produtos.indexWhere((p) => p.IDProduto == id);
+    int index = _produtos.indexWhere((p) => p.id == id);
     if (index != -1) {
       Produto removed = _produtos.removeAt(index);
       return removed;
