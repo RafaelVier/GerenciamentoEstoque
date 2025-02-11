@@ -1,5 +1,5 @@
-import 'package:estoque/Service/service.dart';
-import 'package:estoque/controller/produto/movimentacaoEstoque.dart';
+import 'package:estoque/Manager/Model/Transicao/movimentacaoEstoque.dart';
+import 'package:estoque/Manager/Service/service.dart';
 
 class MovimentacaoEstoqueService extends Service<MovimentacaoEstoque> {
   List<MovimentacaoEstoque> _movimentacoes = [];
