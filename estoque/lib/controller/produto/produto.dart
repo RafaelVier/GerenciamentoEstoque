@@ -1,6 +1,7 @@
 //import 'dart:ffi';
 import 'package:estoque/controller/pessoa/fornecedor.dart';
 import 'tipoQuantidade.dart';
+import 'package:estoque/Manager/Model/pessoa/fornecedor.dart';
 import 'categoria.dart';
 
 class Produto {
