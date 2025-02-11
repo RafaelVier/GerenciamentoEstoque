@@ -10,6 +10,9 @@
 .svn/
 migrate_working_dir/
 
+#Ignorando arquivos .env para excluir o arquivo de url e chave da api do supabase
+*.env
+
 # IntelliJ related
 *.iml
 *.ipr
