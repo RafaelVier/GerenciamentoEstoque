@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
-import 'package:flutter/material.dart';
+
 
 class Funcionario {
   String _iDFuncionario;
@@ -25,7 +26,7 @@ class Funcionario {
   String get email => _email;
   set email(String novoEmail) {
     if (novoEmail == '') {
-      print( 'Email não informado');
+      print('Email não informado');
     } else {
       _email = novoEmail;
     }

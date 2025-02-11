@@ -1,4 +1,4 @@
-import 'package:estoque/controller/produto/produto.dart';
+import 'package:estoque/Manager/Model/produto/produto.dart';
 import 'INotificationObserver.dart';
 
 class Observernotificationmanager extends INotificationObserver{
