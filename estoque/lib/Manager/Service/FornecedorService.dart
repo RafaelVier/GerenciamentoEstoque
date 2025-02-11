@@ -1,5 +1,5 @@
-import 'package:estoque/Service/service.dart';
-import 'package:estoque/controller/pessoa/fornecedor.dart';
+import 'package:estoque/Manager/Model/pessoa/fornecedor.dart';
+import 'package:estoque/Manager/Service/service.dart';
 
 class FornecedorService extends Service<Fornecedor> {
   List<Fornecedor> _fornecedores = [];
