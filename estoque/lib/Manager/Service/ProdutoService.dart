@@ -1,39 +1,73 @@
 import 'package:estoque/Manager/Model/produto/produto.dart';
+import 'package:estoque/main.dart';
 import 'service.dart';
 
 class ProdutoService extends Service<Produto> {
-  List<Produto> _produtos = [];
+  final String tb_produto = 'Produto';
+
 
   @override
   Future<List<Produto>> ObterTodos() async {
-    return _produtos;
+    try{
+      final List<dynamic> response = await supabase
+        .from(tb_produto)
+        .select();
+        return response.map((produto) => Produto.fromMap(produto)).toList();
+    } catch(e){
+      throw Exception('Erro ao obter produtos: $e');
+    }
+  }
+  
+  @override
+  Future<Produto> ObterPorId(int id) async {
+    try {
+      final response = await supabase
+        .from(tb_produto)
+        .select()
+        .eq('ID', id)
+        .single();
+      return Produto.fromMap(response);
+    } catch (e) {
+      throw Exception('Erro ao obter produto: $e');
+    }
   }
 
   @override
   Future<Produto> Atualizar(Produto produto) async {
-    int index = _produtos.indexWhere((p) => p.id == produto.id);
-    if (index != -1) {
-      _produtos[index] = produto;
+    try{
+      await supabase
+        .from(tb_produto)
+        .update(produto.toMap())
+        .eq('ID', produto.id);
       return produto;
-    } else {
-      throw Exception('Produto não encontrado');
+    }catch(e){
+      throw Exception('Erro ao atualizar produto: $e');
     }
   }
 
   @override
   Future<Produto> Adicionar(Produto produto) async {
-    _produtos.add(produto);
-    return produto;
+    try{
+      await supabase
+        .from(tb_produto)
+        .insert(produto.toMap());
+      return produto;
+    }catch(e){
+      throw Exception('Erro ao adicionar produto: $e');
+    }
   }
 
   @override
   Future<Produto> Delete(int id) async {
-    int index = _produtos.indexWhere((p) => p.id == id);
-    if (index != -1) {
-      Produto removed = _produtos.removeAt(index);
-      return removed;
-    } else {
-      throw Exception('Produto não encontrado');
+    try{
+      final produto = await ObterPorId(id);
+      await supabase
+        .from(tb_produto)
+        .delete()
+        .eq('ID', id);
+      return produto;
+    }catch(e){
+      throw Exception('Erro ao deletar produto: $e');
     }
   }
 }
