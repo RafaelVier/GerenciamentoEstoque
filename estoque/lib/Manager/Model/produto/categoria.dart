@@ -2,11 +2,23 @@ class Categoria {
   int id;
   String nome;
   String descricao;
-  Categoria(this.id, this.nome, this.descricao);
-  factory Categoria.mapCategoria(Map<String, dynamic> map) {
-    return Categoria(map['id'], map['nome'], map['descricao']);
+  Categoria({
+    required this.id,
+    required this.nome,
+    required this.descricao
+  });
+  factory Categoria.fromMap(Map<String, dynamic> map) {
+    return Categoria(
+      id: map['id']?? 0,
+      nome: map['nome']??'',
+      descricao: map['descricao'] ?? '',
+    );
   }
-  factory Categoria.fromJson(Map<String, dynamic> json) {
-    return Categoria(json['id'], json['nome'], json['descricao']);
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nome': nome,
+      'descricao': descricao,
+    };
   }
 }

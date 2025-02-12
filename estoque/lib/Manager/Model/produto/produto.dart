@@ -1,4 +1,3 @@
-//import 'dart:ffi';
 import 'package:estoque/Manager/Model/pessoa/fornecedor.dart';
 import 'categoria.dart';
 
@@ -21,24 +20,25 @@ class Produto {
       this.FornecedorProduto);
   get id => _IDProduto;
 
-  factory Produto.mapProduto(Map<String, dynamic> map) {
+  factory Produto.fromMap(Map<String, dynamic> map) {
     return Produto(
         map['_IDProduto'],
         map['CodigoBarras'],
         map['nome'],
         map['precoCusto'],
         map['precoVenda'],
-        Categoria.mapCategoria(map['categoria']),
-        Fornecedor.mapFornecedor(map['FornecedorProduto']));
+        Categoria.fromMap(map['categoria']),
+        Fornecedor.fromMap(map['FornecedorProduto']));
   }
-  factory Produto.fromJson(Map<String, dynamic> json) {
-    return Produto(
-        json['_IDProduto'],
-        json['CodigoBarras'],
-        json['nome'],
-        json['precoCusto'],
-        json['precoVenda'],
-        Categoria.fromJson(json['categoria']),
-        Fornecedor.mapFornecedor(json['FornecedorProduto']));
+  Map<String, dynamic> toMap() {
+    return {
+      '_IDProduto': _IDProduto,
+      'CodigoBarras': CodigoBarras,
+      'nome': nome,
+      'precoCusto': precoCusto,
+      'precoVenda': precoVenda,
+      'categoria': categoria.toMap(),
+      'FornecedorProduto': FornecedorProduto.toMap()
+    };
   }
 }

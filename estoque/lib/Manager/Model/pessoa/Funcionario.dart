@@ -40,13 +40,14 @@ class Funcionario {
       _senha = _hashSenha(novaSenha);
     }
   }
-
+  
   String _hashSenha(String senha) {
     final bytes = utf8.encode(senha);
     final digest = sha256.convert(bytes);
     return digest.toString();
   }
-  factory Funcionario.mapFuncionario(Map<String, dynamic> map) {
+  
+  factory Funcionario.fromMap(Map<String, dynamic> map) {
     return Funcionario(
       map['IDFuncionario'], 
       map['nome'],
@@ -58,21 +59,12 @@ class Funcionario {
     return {
       'IDFuncionario': _iDFuncionario,
       'nome': _nome,
+      'email': _email,
+      'senha': _senha,
     };
-  }
-  factory Funcionario.fromJson(Map<String, dynamic> json) {
-    return Funcionario(
-      json['IDFuncionario'],
-      json['nome'],
-      json['email'],
-      json['senha']
-    );
-  }
-  String toJson() {
-    return jsonEncode(toMap());
   }
   @override
   String toString() {
-    return 'ID: $_iDFuncionario\nNome: $_nome, Informações pessoais: Email: $_email';
+    return 'ID: $_iDFuncionario Nome: $_nome\nInformações pessoais: Email: $_email';
   }
 }
