@@ -31,4 +31,14 @@ class Produto {
         Categoria.mapCategoria(map['categoria']),
         Fornecedor.mapFornecedor(map['FornecedorProduto']));
   }
+  factory Produto.fromJson(Map<String, dynamic> json) {
+    return Produto(
+        json['_IDProduto'],
+        json['CodigoBarras'],
+        json['nome'],
+        json['precoCusto'],
+        json['precoVenda'],
+        Categoria.fromJson(json['categoria']),
+        Fornecedor.mapFornecedor(json['FornecedorProduto']));
+  }
 }
