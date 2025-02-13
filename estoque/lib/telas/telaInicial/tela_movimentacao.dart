@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TelaMovimentacao extends StatefulWidget {
   const TelaMovimentacao({super.key});
@@ -8,109 +9,69 @@ class TelaMovimentacao extends StatefulWidget {
 }
 
 class _TelaMovimentacaoState extends State<TelaMovimentacao> {
-  final List<Map<String, dynamic>> _movimentacoes = [];
+  final SupabaseClient supabase = Supabase.instance.client;
+  List<Map<String, dynamic>> movimentacoes = [];
+  bool isLoading = true;
 
-  void _registrarMovimentacao() {
-    final TextEditingController produtoController = TextEditingController();
-    final TextEditingController quantidadeController = TextEditingController();
-    String tipoMovimentacao = "Entrada";
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Registrar Movimentação"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: produtoController,
-                decoration: const InputDecoration(labelText: "Produto"),
-              ),
-              TextField(
-                controller: quantidadeController,
-                decoration: const InputDecoration(labelText: "Quantidade"),
-                keyboardType: TextInputType.number,
-              ),
-              DropdownButtonFormField<String>(
-                value: tipoMovimentacao,
-                items: const [
-                  DropdownMenuItem(value: "Entrada", child: Text("Entrada")),
-                  DropdownMenuItem(value: "Saída", child: Text("Saída")),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    tipoMovimentacao = value!;
-                  });
-                },
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Cancelar"),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  _movimentacoes.add({
-                    "produto": produtoController.text,
-                    "quantidade": int.tryParse(quantidadeController.text) ?? 0,
-                    "tipo": tipoMovimentacao,
-                  });
-                });
-                Navigator.pop(context);
-              },
-              child: const Text("Salvar"),
-            ),
-          ],
-        );
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    _buscarMovimentacoes();
   }
 
-  void _removerMovimentacao(int index) {
+  Future<void> _buscarMovimentacoes() async {
+    final response = await supabase.from('tb_movimentacao_estoque').select('''
+      moves_id, tipo_movimentacao, moves_quantidade, moves_tipo_quantidade, moves_data, moves_observacao,
+      tb_produto(nome), tb_funcionario(nome)
+    ''').order('moves_data', ascending: false);
+
     setState(() {
-      _movimentacoes.removeAt(index);
+      movimentacoes = List<Map<String, dynamic>>.from(response);
+      isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Movimentação de Estoque"),
-        backgroundColor: const Color(0xFF0A6D92),
-      ),
-      body: _movimentacoes.isEmpty
-          ? const Center(child: Text("Nenhuma movimentação registrada."))
-          : ListView.builder(
-              itemCount: _movimentacoes.length,
-              itemBuilder: (context, index) {
-                final mov = _movimentacoes[index];
-                return ListTile(
-                  title: Text(mov["produto"]),
-                  subtitle: Text("Quantidade: ${mov["quantidade"]}"),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(mov["tipo"], style: TextStyle(
-                        color: mov["tipo"] == "Entrada" ? Colors.green : Colors.red,
-                        fontWeight: FontWeight.bold,
-                      )),
-                      IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => _removerMovimentacao(index),
+      appBar: AppBar(title: const Text("Movimentações de Estoque")),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : movimentacoes.isEmpty
+              ? const Center(child: Text("Nenhuma movimentação registrada."))
+              : ListView.builder(
+                  itemCount: movimentacoes.length,
+                  itemBuilder: (context, index) {
+                    final movimentacao = movimentacoes[index];
+                    return ListTile(
+                      title: Text(
+                        "${movimentacao['tb_produto']['nome']} - ${movimentacao['tipo_movimentacao']}",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: movimentacao['tipo_movimentacao'] == 'Entrada'
+                              ? Colors.green
+                              : Colors.red,
+                        ),
                       ),
-                    ],
-                  ),
-                );
-              },
-            ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _registrarMovimentacao,
-          child: const Icon(Icons.add),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Funcionário: ${movimentacao['tb_funcionario']['nome']}"),
+                          Text("Quantidade: ${movimentacao['moves_quantidade']}"),
+                          Text("Tipo Quantidade: ${movimentacao['moves_tipo_quantidade']}"),
+                          Text("Data: ${movimentacao['moves_data']}"),
+                          if (movimentacao['moves_observacao'] != null)
+                            Text("Obs: ${movimentacao['moves_observacao']}"),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Aqui você pode abrir uma tela para adicionar movimentações manualmente
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

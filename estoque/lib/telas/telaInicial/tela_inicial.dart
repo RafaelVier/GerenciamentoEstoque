@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:estoque/telas/login/tela_login.dart';
 import 'package:estoque/telas/telaInicial/tela_relatorios.dart';
 import 'package:estoque/telas/telaInicial/tela_fornecedores.dart';
-import 'package:estoque/telas/telaInicial/tela_crud.dart';
+import 'package:estoque/telas/telaInicial/tela_produtos.dart';
 import 'package:estoque/telas/telaInicial/tela_movimentacao.dart';
 
 class TelaInicial extends StatelessWidget {
@@ -68,7 +68,7 @@ class TelaInicial extends StatelessWidget {
                         style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    _menuItem(Icons.inventory, "Gerenciar Estoque", context, const TelaCrudEstoque()),
+                    _menuItem(Icons.inventory, "Gerenciar Estoque", context, const TelaProdutos()),
                     _menuItem(Icons.currency_exchange, "Movimentação", context, const TelaMovimentacao()),
                     _menuItem(Icons.supervisor_account, "Fornecedores", context, const TelaFornecedores()),
                     _menuItem(Icons.bar_chart, "Relatórios", context, const TelaRelatorios()),
