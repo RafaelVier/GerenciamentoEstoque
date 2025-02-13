@@ -1,3 +1,4 @@
+import 'package:estoque/telas/telaInicial/tela_categoria.dart';
 import 'package:flutter/material.dart';
 import 'package:estoque/telas/login/tela_login.dart';
 import 'package:estoque/telas/telaInicial/tela_relatorios.dart';
@@ -71,6 +72,7 @@ class TelaInicial extends StatelessWidget {
                     _menuItem(Icons.currency_exchange, "Movimentação", context, const TelaMovimentacao()),
                     _menuItem(Icons.supervisor_account, "Fornecedores", context, const TelaFornecedores()),
                     _menuItem(Icons.bar_chart, "Relatórios", context, const TelaRelatorios()),
+                    _menuItem(Icons.exit_to_app, "Categorias", context, const TelaCategorias()),
                     _menuItem(Icons.exit_to_app, "Sair", context, null, isExit: true),
                   ],
                 ),

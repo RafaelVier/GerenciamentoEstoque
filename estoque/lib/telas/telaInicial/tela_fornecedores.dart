@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TelaFornecedores extends StatefulWidget {
   const TelaFornecedores({super.key});
@@ -8,72 +9,147 @@ class TelaFornecedores extends StatefulWidget {
 }
 
 class _TelaFornecedoresState extends State<TelaFornecedores> {
-  final List<Map<String, String>> _fornecedores = [
-    {'nome': 'Fornecedor A', 'telefone': '(11) 99999-9999', 'email': 'a@email.com'},
-    {'nome': 'Fornecedor B', 'telefone': '(21) 88888-8888', 'email': 'b@email.com'},
-  ];
+  final SupabaseClient supabase = Supabase.instance.client;
+  List<Map<String, dynamic>> fornecedores = [];
 
-  void _mostrarDetalhesFornecedor(Map<String, String> fornecedor) {
+  @override
+  void initState() {
+    super.initState();
+    _carregarFornecedores();
+  }
+
+  Future<void> _carregarFornecedores() async {
+    final response = await supabase.from('tb_fornecedor').select();
+    setState(() {
+      fornecedores = List<Map<String, dynamic>>.from(response);
+    });
+  }
+
+  Future<void> _adicionarFornecedor(String nome, String cnpj, String telefone, String email) async {
+    await supabase.from('tb_fornecedor').insert({
+      'nome': nome, 
+      'cnpj': cnpj,
+      'telefone': telefone,
+      'email': email 
+      });
+    _carregarFornecedores();
+  }
+
+  Future<void> _editarFornecedor(int id, String nome, String cnpj, String telefone, String email) async {
+    await supabase.from('tb_fornecedor').update({
+      'nome': nome, 
+      'cnpj': cnpj,
+      'telefone': telefone,
+      'email': email 
+      }).match({'fornecedor_id': id});
+    _carregarFornecedores();
+  }
+
+  Future<void> excluirFornecedor(int id) async {
+    await supabase.from('tb_fornecedor').delete().eq('fornecedor_id', id);
+    _carregarFornecedores();
+  }
+
+  void _mostrarDialogoFornecedor({int? id, String? nome, String? cnpj, String? telefone, String? email}) {
+    final TextEditingController nomeController = TextEditingController(text: nome);
+    final TextEditingController cnpjController = TextEditingController(text: cnpj);
+    final TextEditingController telefoneController = TextEditingController(text: telefone);
+    final TextEditingController emailController = TextEditingController(text: email);
+    
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(fornecedor['nome']!),
+          title: Text(id == null ? 'Adicionar fornecedor' : 'Editar fornecedor'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Telefone: ${fornecedor['telefone']}'),
-              Text('Email: ${fornecedor['email']}'),
+              TextField(
+                controller: nomeController,
+                decoration: const InputDecoration(labelText: 'Nome'),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: cnpjController,
+                decoration: const InputDecoration(labelText: 'CNPJ'),
+              ),
+              TextField(
+                controller: telefoneController,
+                decoration: const InputDecoration(labelText: 'Telefone'),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(labelText: 'Email'),
+              ),
+              const SizedBox(height: 8),
             ],
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text("Fechar")),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (id == null) {
+                  _adicionarFornecedor(nomeController.text, cnpjController.text, telefoneController.text, emailController.text); 
+                } else {
+                  _editarFornecedor(id, nomeController.text, cnpjController.text, telefoneController.text, emailController.text);
+                }
+                Navigator.pop(context);
+              },
+              child: const Text('Salvar'),
+            ),
           ],
         );
       },
     );
   }
 
-  void _adicionarFornecedor() {
-    setState(() {
-      _fornecedores.add({
-        'nome': 'Novo Fornecedor',
-        'telefone': '(00) 00000-0000',
-        'email': 'novo@email.com',
-      });
-    });
-  }
-
-  void _removerFornecedor(int index) {
-    setState(() {
-      _fornecedores.removeAt(index);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Fornecedores"),
-        backgroundColor: const Color(0xFF0A6D92),
-      ),
-      body: ListView.builder(
-        itemCount: _fornecedores.length,
-        itemBuilder: (context, index) {
-          final fornecedor = _fornecedores[index];
-          return ListTile(
-            title: Text(fornecedor['nome']!),
-            subtitle: Text(fornecedor['telefone']!),
-            onTap: () => _mostrarDetalhesFornecedor(fornecedor),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () => _removerFornecedor(index),
+      appBar: AppBar(title: const Text('Fornecedores')),
+      body: fornecedores.isEmpty
+          ? const Center(child: Text('Não há nenhuma fornecedor cadastrado.'))
+          : ListView.builder(
+              itemCount: fornecedores.length,
+              itemBuilder: (context, index) {
+                final fornecedor = fornecedores[index];
+                return ListTile(
+                  title: Text(fornecedor['nome']),
+                   subtitle: Text(
+                    'CNPJ: ${fornecedor['cnpj']}\n'
+                    'Telefone: ${fornecedor['telefone']}\n'
+                    'E-mail: ${fornecedor['email']}',
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () => _mostrarDialogoFornecedor(
+                          id: fornecedor['fornecedor_id'],
+                          nome: fornecedor['nome'],
+                          cnpj: fornecedor['cnpj'],
+                          telefone: fornecedor['telefone'],
+                          email: fornecedor['email'],
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          excluirFornecedor(fornecedor['fornecedor_id']); // O ID já está como int
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _adicionarFornecedor,
+        onPressed: () => _mostrarDialogoFornecedor(),
         child: const Icon(Icons.add),
       ),
     );
