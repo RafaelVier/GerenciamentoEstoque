@@ -37,8 +37,8 @@ class Produto {
       'nome': nome,
       'precoCusto': precoCusto,
       'precoVenda': precoVenda,
-      'categoria': categoria.toMap(),
-      'FornecedorProduto': FornecedorProduto.toMap()
+      'categoria': categoria.id,
+      'FornecedorProduto': FornecedorProduto.ID
     };
   }
 }

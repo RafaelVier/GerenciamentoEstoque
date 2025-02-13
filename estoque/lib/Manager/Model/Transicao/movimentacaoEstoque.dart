@@ -1,12 +1,14 @@
+import 'dart:ffi';
+
 import 'package:estoque/Manager/Model/pessoa/Funcionario.dart';
 import 'package:estoque/Manager/Model/produto/produto.dart';
 import 'package:estoque/Manager/Model/produto/tipoQuantidade.dart';
 import 'TipoMovimentacao.dart';
 class MovimentacaoEstoque{
-    int ID;
+    Int8 ID;
     Produto produto;
     Tipomovimentacao tipoMovimentacao;
-    int Quantidade;
+    double Quantidade;
     Funcionario funcionario;
     TipoQuantidade tipoQuantidade;
     DateTime Data;
@@ -37,11 +39,11 @@ class MovimentacaoEstoque{
     Map<String, dynamic> toMap() {
       return {
         'ID': ID,
-        'produto': produto.toMap(),
-        'tipoMovimentacao': tipoMovimentacao.index,
+        'produto': produto.id,
+        'tipoMovimentacao': tipoMovimentacao.name,
         'Quantidade': Quantidade,
-        'funcionario': funcionario.toMap(),
-        'tipoQuantidade': tipoQuantidade.index,
+        'funcionario': funcionario.iDFuncionario,
+        'tipoQuantidade': tipoQuantidade.name,
         'Data': Data,
         'Observacao': Observacao,
       };
