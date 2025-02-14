@@ -1,38 +1,44 @@
 //import 'dart:ffi';
-import 'package:estoque/controller/pessoa/fornecedor.dart';
-import 'tipoQuantidade.dart';
 import 'package:estoque/Manager/Model/pessoa/fornecedor.dart';
 import 'categoria.dart';
 
 class Produto {
-  int IDProduto;
+  String _IDProduto;
   String CodigoBarras;
   String nome;
-  double preco;
-  double quantidade;
+  double precoCusto;
+  double precoVenda;
   Categoria categoria;
-  TipoQuantidade tipoQuantidade;
   Fornecedor FornecedorProduto;
 
   Produto(
-      this.IDProduto,
+      this._IDProduto,
       this.CodigoBarras,
       this.nome,
-      this.preco,
-      this.quantidade,
+      this.precoCusto,
+      this.precoVenda,
       this.categoria,
-      this.tipoQuantidade,
       this.FornecedorProduto);
+  get id => _IDProduto;
 
   factory Produto.mapProduto(Map<String, dynamic> map) {
     return Produto(
-        map['IDProduto'],
+        map['_IDProduto'],
         map['CodigoBarras'],
         map['nome'],
-        map['preco'],
-        map['quantidade'],
+        map['precoCusto'],
+        map['precoVenda'],
         Categoria.mapCategoria(map['categoria']),
-        TipoQuantidade.mapTipoQuantidade(map['tipoQuantidade']),
         Fornecedor.mapFornecedor(map['FornecedorProduto']));
+  }
+  factory Produto.fromJson(Map<String, dynamic> json) {
+    return Produto(
+        json['_IDProduto'],
+        json['CodigoBarras'],
+        json['nome'],
+        json['precoCusto'],
+        json['precoVenda'],
+        Categoria.fromJson(json['categoria']),
+        Fornecedor.mapFornecedor(json['FornecedorProduto']));
   }
 }

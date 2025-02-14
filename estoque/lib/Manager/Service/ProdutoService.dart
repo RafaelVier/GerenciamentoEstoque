@@ -1,5 +1,4 @@
 import 'package:estoque/Manager/Model/produto/produto.dart';
-
 import 'service.dart';
 
 class ProdutoService extends Service<Produto> {

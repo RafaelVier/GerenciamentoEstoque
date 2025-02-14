@@ -36,4 +36,6 @@ class FornecedorService extends Service<Fornecedor> {
       throw Exception('Fornecedor não encontrado');
     }
   }
+
+  
 }
