@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:estoque/telas/telaInicial/tela_inicial.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TelaLogin extends StatefulWidget {
   const TelaLogin({super.key});
@@ -39,7 +40,6 @@ class _TelaLoginState extends State<TelaLogin> {
 
       if (user != null) {
         final responseInsert = await supabase.from('tb_funcionario').insert({
-          //'id_uuid': user.id,
           'nome': nomeController.text,
           'email': emailController.text,
           'login': loginController.text,
@@ -64,14 +64,35 @@ class _TelaLoginState extends State<TelaLogin> {
 
   Future<void> _entrar() async {
     try {
-      await supabase.auth.signInWithPassword(
-        email: emailController.text,
-        password: senhaController.text,
-      );
+      final AuthResponse response = await supabase.auth.signInWithPassword(
+      email: emailController.text.trim(),
+      password: senhaController.text.trim(),
+    );
+
+    final user = response.user;
+    if (user != null) {
+      // Buscar ID do funcionário na tabela 'funcionario' pelo email
+      final List<Map<String, dynamic>> funcionario = await supabase
+          .from('tb_funcionario')
+          .select('id_funcionario') // Pegamos apenas o ID
+          .eq('email', user.email!)
+          .limit(1);
+
+      if (funcionario.isNotEmpty) {
+        final int idFuncionario = funcionario.first['id_funcionario'];
+
+        // Salvar o ID do funcionário no SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('id_funcionario', idFuncionario);
+      
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const TelaInicial()),
       );
+      } else {
+        throw Exception('Funcionário não encontrado na base de dados.');
+      }
+    }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erro: ${e.toString()}')),
