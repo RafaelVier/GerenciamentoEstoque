@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TelaProdutos extends StatefulWidget {
   const TelaProdutos({super.key});
@@ -18,7 +19,17 @@ class _TelaProdutosState extends State<TelaProdutos> {
   void initState() {
     super.initState();
     carregarDados();
+    _carregarIdFuncionario();
   }
+
+  int? idFuncionario;
+
+  Future<void> _carregarIdFuncionario() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  setState(() {
+    idFuncionario = prefs.getInt('id_funcionario');
+  });
+}
 
   Future<void> carregarDados() async {
     final produtosResponse = await supabase.from('tb_produto').select();
@@ -90,7 +101,7 @@ class _TelaProdutosState extends State<TelaProdutos> {
             ElevatedButton(
               onPressed: () async {
                 try {
-                int funcionarioId = 2;
+                //int funcionarioId = 2;
 
                 if (produto == null) {
                   final response = await supabase.from('tb_produto').insert({
@@ -115,7 +126,7 @@ class _TelaProdutosState extends State<TelaProdutos> {
                     'moves_data': DateTime.now().toIso8601String(),
                     'moves_observacao': 'Novo produto adicionado',
                     'moves_produto': novoProdutoId,
-                    'moves_funcionario': funcionarioId // Substituir pelo ID do funcionário logado
+                    'moves_funcionario': idFuncionario // Substituir pelo ID do funcionário logado
                   });
                 
                 } else {
@@ -183,7 +194,7 @@ class _TelaProdutosState extends State<TelaProdutos> {
                   }).match({'produto_id': produtoId});
                 }
 
-                int funcionarioId = 2;
+                //int funcionarioId = 2;
                 // Registrar movimentação de saída
                 await supabase.from('tb_movimentacao_estoque').insert({
                   'tipo_movimentacao': 'Saída',
@@ -192,7 +203,7 @@ class _TelaProdutosState extends State<TelaProdutos> {
                   'moves_data': DateTime.now().toIso8601String(),
                   'moves_observacao': 'Venda simulada',
                   'moves_produto': produtoId,
-                  'moves_funcionario': funcionarioId // Substituir pelo ID do funcionário logado
+                  'moves_funcionario': idFuncionario // Substituir pelo ID do funcionário logado
                 });
                 carregarDados();
               },
@@ -206,6 +217,7 @@ class _TelaProdutosState extends State<TelaProdutos> {
 
   @override
   Widget build(BuildContext context) {
+    produtos.sort((a, b) => (b['quantidadeEstoque'] as int).compareTo(a['quantidadeEstoque'] as int));
     return Scaffold(
       appBar: AppBar(title: const Text('Gerenciar Produtos')),
       body: produtos.isEmpty
