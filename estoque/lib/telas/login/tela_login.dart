@@ -11,7 +11,6 @@ class TelaLogin extends StatefulWidget {
 
 class _TelaLoginState extends State<TelaLogin> {
   final SupabaseClient supabase = Supabase.instance.client;
-  
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
   final TextEditingController nomeController = TextEditingController();
@@ -38,6 +37,7 @@ class _TelaLoginState extends State<TelaLogin> {
       final user = response.user;
 
       if (user != null) {
+        
         final responseInsert = await supabase.from('tb_funcionario').insert({
           //'id_uuid': user.id,
           'nome': nomeController.text,

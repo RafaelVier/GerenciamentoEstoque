@@ -1,3 +1,4 @@
+import 'package:estoque/Manager/Model/pessoa/Funcionario.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -90,8 +91,10 @@ class _TelaProdutosState extends State<TelaProdutos> {
             ElevatedButton(
               onPressed: () async {
                 try {
-                int funcionarioId = 2;
-
+                  final user = supabase.auth.currentUser;
+                  String emailFuncionario = user!.email.toString();
+                  final response = await supabase.from('tb_funcionario').select().eq('email', emailFuncionario).single();
+                  int funcionarioId = response['funcionario_id'].parseInt();
                 if (produto == null) {
                   final response = await supabase.from('tb_produto').insert({
                     'nome': nomeController.text,
@@ -105,7 +108,10 @@ class _TelaProdutosState extends State<TelaProdutos> {
                   }).select().single();
 
                   int novoProdutoId = response['produto_id'];
-                  //int funcionarioId = 2;
+                  final user = supabase.auth.currentUser;
+                  String emailFuncionario = user!.email.toString();
+                  final resp = await supabase.from('tb_funcionario').select().eq('email', emailFuncionario).single();
+                  int funcionarioId = resp['funcionario_id'].parseInt();
 
                   // Registrar movimentação de entrada
                   await supabase.from('tb_movimentacao_estoque').insert({
@@ -183,8 +189,14 @@ class _TelaProdutosState extends State<TelaProdutos> {
                   }).match({'produto_id': produtoId});
                 }
 
-                int funcionarioId = 2;
+                int funcionarioId;
                 // Registrar movimentação de saída
+                
+                final user = supabase.auth.currentUser;
+                String emailFuncionario = user!.email.toString();
+                final response = await supabase.from('tb_funcionario').select().eq('email', emailFuncionario).single();
+                funcionarioId = response['funcionario_id'].parseInt();
+                 
                 await supabase.from('tb_movimentacao_estoque').insert({
                   'tipo_movimentacao': 'Saída',
                   'moves_quantidade': quantidadeRemover,

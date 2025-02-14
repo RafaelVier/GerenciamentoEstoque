@@ -1,22 +1,37 @@
+import 'dart:ffi';
+
 import 'package:estoque/Manager/Model/pessoa/Funcionario.dart';
 import 'package:estoque/Manager/Service/service.dart';
 import 'package:estoque/main.dart';
 import 'package:flutter/material.dart';
 import 'NotificaoService.dart';
 
+
 class ServiceFuncionario extends Service<Funcionario>{
-  final tb_funcionario = 'Funcionario';
 
   @override
   Future<List<Funcionario>> ObterTodos(BuildContext context, {int limite = 100, int offset = 0}) async {
     try{
       final List<dynamic> response = await supabase
-        .from(tb_funcionario)
+        .from('tb_funcionario')
         .select();
         return response.map((funcionario) => Funcionario.fromMap(funcionario)).toList();
     } catch(e){
       NotificationService.showSnackBar(context,'Erro ao obter funcionarios: $e');
       return[];
+    }
+  }
+   ObterPorEmail(BuildContext context,String email) async {
+    try {
+      final response = await supabase
+        .from('tb_funcionario')
+        .select()
+        .eq('email', email)
+        .single();
+      return Funcionario.fromMap(response).iDFuncionario;
+    } catch (e) {
+      NotificationService.showSnackBar(context,'Erro ao obter funcionario: $e');
+      rethrow;
     }
   }
 
