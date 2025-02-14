@@ -5,14 +5,14 @@ import 'dart:convert';
 
 
 class Funcionario {
-  String _iDFuncionario;
+  int _iDFuncionario;
   String _nome;
   String _email;
   String _senha;
 
   Funcionario(this._iDFuncionario, this._nome, this._email, this._senha);
 
-  String get iDFuncionario => _iDFuncionario;
+  int get iDFuncionario => _iDFuncionario;
 
   String get nome => _nome;
   set nome(String novoNome) {
@@ -55,6 +55,7 @@ class Funcionario {
       map['senha']
     );
   }
+
   Map<String, dynamic> toMap() {
     return {
       'IDFuncionario': _iDFuncionario,
@@ -63,6 +64,7 @@ class Funcionario {
       'senha': _senha,
     };
   }
+  
   @override
   String toString() {
     return 'ID: $_iDFuncionario Nome: $_nome\nInformações pessoais: Email: $_email';

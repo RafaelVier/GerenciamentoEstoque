@@ -1,5 +1,7 @@
 import 'package:estoque/Manager/Model/produto/produto.dart';
+import 'package:estoque/Manager/Service/NotificaoService';
 import 'package:estoque/main.dart';
+import 'package:flutter/material.dart';
 import 'service.dart';
 
 class ProdutoService extends Service<Produto> {
@@ -7,19 +9,20 @@ class ProdutoService extends Service<Produto> {
 
 
   @override
-  Future<List<Produto>> ObterTodos() async {
+  Future<List<Produto>> ObterTodos(BuildContext context, {int limite = 100, int offset = 0}) async {
     try{
       final List<dynamic> response = await supabase
         .from(tb_produto)
         .select();
         return response.map((produto) => Produto.fromMap(produto)).toList();
     } catch(e){
-      throw Exception('Erro ao obter produtos: $e');
+      NotificationService.showSnackBar(context, 'Erro ao obter produtos: $e');
+      return [];
     }
   }
   
   @override
-  Future<Produto> ObterPorId(int id) async {
+  Future<Produto> ObterPorId(BuildContext context,int id) async {
     try {
       final response = await supabase
         .from(tb_produto)
@@ -33,7 +36,7 @@ class ProdutoService extends Service<Produto> {
   }
 
   @override
-  Future<Produto> Atualizar(Produto produto) async {
+  Future<Produto> Atualizar(BuildContext context, Produto produto) async {
     try{
       await supabase
         .from(tb_produto)
@@ -41,33 +44,36 @@ class ProdutoService extends Service<Produto> {
         .eq('ID', produto.id);
       return produto;
     }catch(e){
-      throw Exception('Erro ao atualizar produto: $e');
+      NotificationService.showSnackBar(context, 'Erro ao atualizar produto: $e');
+      rethrow;
     }
   }
 
   @override
-  Future<Produto> Adicionar(Produto produto) async {
+  Future<Produto> Adicionar(BuildContext context, Produto produto) async {
     try{
       await supabase
         .from(tb_produto)
         .insert(produto.toMap());
       return produto;
     }catch(e){
-      throw Exception('Erro ao adicionar produto: $e');
+      NotificationService.showSnackBar(context, 'Erro ao adicionar produto: $e');
+      rethrow;
     }
   }
 
   @override
-  Future<Produto> Delete(int id) async {
+  Future<Produto> Delete(BuildContext context, int id) async {
     try{
-      final produto = await ObterPorId(id);
+      final produto = await ObterPorId(context, id);
       await supabase
         .from(tb_produto)
         .delete()
         .eq('ID', id);
       return produto;
     }catch(e){
-      throw Exception('Erro ao deletar produto: $e');
+      NotificationService.showSnackBar(context, 'Erro ao deletar produto: $e');
+      rethrow;
     }
   }
 }
