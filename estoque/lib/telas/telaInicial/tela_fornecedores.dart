@@ -110,7 +110,10 @@ class _TelaFornecedoresState extends State<TelaFornecedores> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Fornecedores')),
+      appBar: AppBar(
+        title: const Text('Fornecedores'),
+        backgroundColor: const Color(0xFF0A6D92),
+      ),
       body: fornecedores.isEmpty
           ? const Center(child: Text('Não há nenhuma fornecedor cadastrado.'))
           : ListView.builder(

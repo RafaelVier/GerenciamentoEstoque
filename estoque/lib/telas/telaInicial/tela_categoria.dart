@@ -88,7 +88,10 @@ class _TelaCategoriasState extends State<TelaCategorias> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Categorias')),
+      appBar: AppBar(
+        title: const Text('Categorias'),
+        backgroundColor: const Color(0xFF0A6D92),
+      ),
       body: categorias.isEmpty
           ? const Center(child: Text('Não há nenhuma categoria cadastrada.'))
           : ListView.builder(

@@ -89,7 +89,10 @@ class _TelaRelatoriosState extends State<TelaRelatorios> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Relatórios de Estoque')),
+      appBar: AppBar(
+          title: const Text('Relatórios de Estoque'),
+        backgroundColor: const Color(0xFF0A6D92),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

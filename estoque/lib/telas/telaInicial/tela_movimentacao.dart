@@ -34,7 +34,10 @@ class _TelaMovimentacaoState extends State<TelaMovimentacao> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Movimentações de Estoque")),
+      appBar: AppBar(
+        title: const Text("Movimentações de Estoque"),
+        backgroundColor: const Color(0xFF0A6D92),
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : movimentacoes.isEmpty

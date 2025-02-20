@@ -101,7 +101,6 @@ class _TelaProdutosState extends State<TelaProdutos> {
             ElevatedButton(
               onPressed: () async {
                 try {
-                //int funcionarioId = 2;
 
                 if (produto == null) {
                   final response = await supabase.from('tb_produto').insert({
@@ -219,7 +218,10 @@ class _TelaProdutosState extends State<TelaProdutos> {
   Widget build(BuildContext context) {
     produtos.sort((a, b) => (b['quantidadeEstoque'] as int).compareTo(a['quantidadeEstoque'] as int));
     return Scaffold(
-      appBar: AppBar(title: const Text('Gerenciar Produtos')),
+      appBar: AppBar(
+        title: const Text('Gerenciar Produtos'),
+        backgroundColor: const Color(0xFF0A6D92)
+      ),
       body: produtos.isEmpty
           ? const Center(child: Text('Nenhum produto cadastrado'))
           : ListView.builder(
